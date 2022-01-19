@@ -158,7 +158,9 @@ class Database:
                                 channel_id
                             }
                         }
-                    }
+                    },
+                False,
+                True
             )
 
             await self.del_active(group_id, channel_id)
@@ -293,7 +295,7 @@ class Database:
         templ = {"$pull": {"chats": dict(chat_id = channel_id)}}
         
         try:
-            await self.acol.update_one({"_id": group_id}, templ)
+            await self.acol.update_one({"_id": group_id}, templ, False, True)
         except Exception as e:
             print(e)
             pass
@@ -492,5 +494,4 @@ class Database:
         A Funtion to count total filters of a group
         """
         return await self.fcol.count_documents({"group_id": group_id})
-
 
